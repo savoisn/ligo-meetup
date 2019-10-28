@@ -1,0 +1,58 @@
+{ parameter (or (address %booked) (address %showed)) ;
+  storage (pair (set %booked address) (set %showed address)) ;
+  code { DUP ;
+         LAMBDA
+           (pair address (set address))
+           (set address)
+           { DUP ;
+             CAR ;
+             DIP { DUP } ;
+             SWAP ;
+             CDR ;
+             DIP { DUP } ;
+             SWAP ;
+             DIP { DUP ; PUSH bool True } ;
+             UPDATE ;
+             DUP ;
+             DIP { DROP ; DROP ; DROP ; DROP } } ;
+         SWAP ;
+         CAR ;
+         DIP 2 { DUP } ;
+         DIG 2 ;
+         CDR ;
+         DIP { DUP } ;
+         SWAP ;
+         IF_LEFT
+           { DUP ;
+             DUP ;
+             DIP { DIP 2 { DUP } ; DIG 2 ; CAR } ;
+             PAIR ;
+             DIP { DIP 4 { DUP } ; DIG 4 } ;
+             EXEC ;
+             DIP { DIP 2 { DUP } ; DIG 2 ; CDR } ;
+             PAIR ;
+             DIP 3 { DROP } ;
+             DUG 2 ;
+             DROP ;
+             DROP ;
+             PUSH unit Unit }
+           { DUP ;
+             DUP ;
+             DIP { DIP 2 { DUP } ; DIG 2 ; CDR } ;
+             PAIR ;
+             DIP { DIP 4 { DUP } ; DIG 4 } ;
+             EXEC ;
+             DIP { DIP 2 { DUP } ; DIG 2 ; CAR } ;
+             SWAP ;
+             PAIR ;
+             DIP 3 { DROP } ;
+             DUG 2 ;
+             DROP ;
+             DROP ;
+             PUSH unit Unit } ;
+         DROP ;
+         DUP ;
+         NIL operation ;
+         PAIR ;
+         DIP { DROP ; DROP ; DROP ; DROP } } }
+
